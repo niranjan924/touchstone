@@ -1,9 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+const NAV_LINKS = [
+  { href: "#home", label: "Home" },
+  { href: "#aboutus", label: "About Us" },
+  { href: "#programs", label: "Our Programs" },
+  { href: "#howwework", label: "How We Work" },
+  { href: "#initiatives", label: "Our Initiatives" },
+  { href: "#impact", label: "Our Impact" },
+  { href: "#contactus", label: "Contact Us" },
+];
 
 const Header = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMobileMenuOpen]);
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -21,28 +45,16 @@ const Header = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8 text-gray-700 font-medium">
-          <a href="#home" className="hover:text-orange-600">
-            Home
-          </a>
-          <a href="#aboutus" className="hover:text-orange-600">
-            About Us
-          </a>
-          <a href="#programs" className="hover:text-orange-600">
-            Our Programs
-          </a>
-          <a href="#howwework" className="hover:text-orange-600">
-            How We Work
-          </a>
-          <a href="#initiatives" className="hover:text-orange-600">
-            Our Initiatives
-          </a>
-          <a href="#impact" className="hover:text-orange-600">
-            Our Impact
-          </a>
-          <a href="#contactus" className="hover:text-orange-600">
-            Contact Us
-          </a>
+        <nav className="hidden md:flex space-x-8 text-gray-700 font-medium" aria-label="Primary">
+          {NAV_LINKS.map(({ href, label }) => (
+            <a
+              key={href}
+              href={href}
+              className="hover:text-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
+            >
+              {label}
+            </a>
+          ))}
         </nav>
 
         {/* Right: Donate Button */}
@@ -51,7 +63,7 @@ const Header = () => {
             href="https://www.harekrishnavizag.org/subhojanam"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full font-semibold transition duration-200"
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
           >
             Donate
           </a>
@@ -61,7 +73,10 @@ const Header = () => {
         <div className="md:hidden">
           <button
             onClick={toggleMenu}
-            className="text-gray-800 focus:outline-none"
+            className="text-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             <svg
               className="h-6 w-6"
@@ -92,61 +107,22 @@ const Header = () => {
 
       {/* Mobile Navigation Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white shadow-md px-4 py-3 space-y-2 text-gray-700 font-medium">
-          <a
-            href="#home"
-            className="block hover:text-orange-600"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Home
-          </a>
-          <a
-            href="#aboutus"
-            className="block hover:text-orange-600"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            About Us
-          </a>
-          <a
-            href="#programs"
-            className="block hover:text-orange-600"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Our Programs
-          </a>
-          <a
-            href="#howwework"
-            className="block hover:text-orange-600"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            How We Work
-          </a>
-          <a
-            href="#initiatives"
-            className="block hover:text-orange-600"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Our Initiatives
-          </a>
-          <a
-            href="#impact"
-            className="block hover:text-orange-600"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Our Impact
-          </a>
-          <a
-            href="#contactus"
-            className="block hover:text-orange-600"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Contact Us
-          </a>
+        <div id="mobile-menu" className="md:hidden bg-white shadow-md px-4 py-3 space-y-2 text-gray-700 font-medium">
+          {NAV_LINKS.map(({ href, label }) => (
+            <a
+              key={href}
+              href={href}
+              className="block hover:text-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {label}
+            </a>
+          ))}
           <a
             href="https://www.harekrishnavizag.org/subhojanam"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block w-full bg-red-500 hover:bg-red-600 text-white text-center px-4 py-2 rounded-full font-semibold transition duration-200"
+            className="inline-block w-full bg-red-500 hover:bg-red-600 text-white text-center px-4 py-2 rounded-full font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
           >
             Donate Now
           </a>
