@@ -57,8 +57,14 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* Right: Donate Button */}
-        <div className="hidden md:block">
+        {/* Right: CTAs */}
+        <div className="hidden md:flex items-center space-x-3">
+          <a
+            href="#contactus"
+            className="border border-orange-500 hover:bg-orange-50 text-orange-600 px-4 py-2 rounded-full font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+          >
+            Talk to us
+          </a>
           <a
             href="https://www.harekrishnavizag.org/subhojanam"
             target="_blank"
@@ -118,6 +124,13 @@ const Header = () => {
               {label}
             </a>
           ))}
+          <a
+            href="#contactus"
+            className="inline-block w-full border border-orange-500 hover:bg-orange-50 text-orange-600 text-center px-4 py-2 rounded-full font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Talk to us
+          </a>
           <a
             href="https://www.harekrishnavizag.org/subhojanam"
             target="_blank"
